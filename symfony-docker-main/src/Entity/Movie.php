@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Movie
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
@@ -31,9 +30,6 @@ class Movie
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $release_date = null;
 
-    #[ORM\Column(unique: true)]
-    private ?int $TMDB_id = null;
-
     #[ORM\Column(type: Types::SMALLFLOAT)]
     private ?float $vote_average = null;
 
@@ -43,7 +39,8 @@ class Movie
     #[ORM\Column(nullable: true)]
     private ?int $budget = null;
 
-    #[ORM\Column(nullable: true)]
+    //Avenger Endgame broke the regular int size (some might have done it before, but they weren't as high in trending ATM)
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
     private ?int $revenue = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -52,7 +49,7 @@ class Movie
     /**
      * @var Collection<int, Genre>
      */
-    #[ORM\ManyToMany(targetEntity: Genre::class)]
+    #[ORM\ManyToMany(targetEntity: Genre::class, cascade: ['persist'])]
     private Collection $genres;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
@@ -69,6 +66,13 @@ class Movie
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getTitle(): ?string
@@ -127,18 +131,6 @@ class Movie
     public function setReleaseDate(?\DateTimeInterface $release_date): static
     {
         $this->release_date = $release_date;
-
-        return $this;
-    }
-
-    public function getTMDBId(): ?int
-    {
-        return $this->TMDB_id;
-    }
-
-    public function setTMDBId(int $TMDB_id): static
-    {
-        $this->TMDB_id = $TMDB_id;
 
         return $this;
     }

@@ -23,8 +23,8 @@ framework:
     rate_limiter:
         tmdb_limiter:
             policy: 'token_bucket'
-            limit: 20
-            rate: { interval: '10 seconds', amount: 20}
+            limit: 40
+            rate: { interval: '1 second', amount: 40}
         
         
 when@test:

@@ -35,48 +35,62 @@ class TmdbApiService
         return $request->getContent();
     }
 
-    public function getMovieDetails(int $movieId, bool $resultAsArray = false)
+    public function getMoviesDetails(mixed $movieIds, bool $resultAsArray = false)
     {
-        $uri = $this->apiBasePath . sprintf(self::GET_MOVIE_DETAILS_URI, $movieId);
-        $request = $this->tmdbClient->request(
-            'GET',
-            $uri,
-            ['query' => self::QUERY_PARAMETERS]
-        );
-
-        if ($resultAsArray) {
-            return $request->toArray();
+        $uris = [];
+        $params = [];
+        foreach ($movieIds as $movieId) {
+            $uris[] = $this->apiBasePath . sprintf(self::GET_MOVIE_DETAILS_URI, $movieId);
+            $params[] = ['query' => self::QUERY_PARAMETERS];
         }
-        return $request->getContent();
+
+        return $this->getMultipleResponseAsynchronous($uris, $params, $resultAsArray);
+
     }
 
-    public function getTrendingMoviesDay(int $page = 1, bool $resultAsArray = false)
+    public function getTrendingMovies(bool $daily = true, array $pages = [1], bool $resultAsArray = false)
     {
-        $uri = $this->apiBasePath . self::GET_TRENDING_MOVIE_DAY_URI;
-        $request = $this->tmdbClient->request(
-            'GET',
-            $uri,
-            ['query' => array_merge(self::QUERY_PARAMETERS, ['page' => $page])]
-        );
-
-        if ($resultAsArray) {
-            return $request->toArray();
+        $uris = [];
+        $params = [];
+        foreach ($pages as $page) {
+            $uris[] = $this->apiBasePath . ($daily ? self::GET_TRENDING_MOVIE_DAY_URI : self::GET_TRENDING_MOVIE_WEEK_URI);
+            $params[] = ['query' => array_merge(self::QUERY_PARAMETERS, ['page' => $page])];
         }
-        return $request->getContent();
+
+        return $this->getMultipleResponseAsynchronous($uris, $params, $resultAsArray);
     }
 
-    public function getTrendingMoviesWeek(int $page = 1, bool $resultAsArray = false)
+    /**
+     * Allow asynchronous batch fetching for performance issues
+     *
+     * @param array $uris
+     * @param array $params
+     * @param bool $resultAsArray
+     * @return array
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
+    public function getMultipleResponseAsynchronous(array $uris, array $params, bool $resultAsArray = false)
     {
-        $uri = $this->apiBasePath . self::GET_TRENDING_MOVIE_WEEK_URI;
-        $request = $this->tmdbClient->request(
-            'GET',
-            $uri,
-            ['query' => array_merge(self::QUERY_PARAMETERS, ['page' => $page])]
-        );
-
-        if ($resultAsArray) {
-            return $request->toArray();
+        $requests = [];
+        $responses = [];
+        foreach ($uris as $key => $uri) {
+            $requests[] = $this->tmdbClient->request('GET', $uri, $params[$key]);
         }
-        return $request->getContent();
+        if ($resultAsArray) {
+            foreach ($requests as $request) {
+                $responses[] = $request->toArray();
+            }
+        }
+        else {
+            foreach ($requests as $request) {
+                $responses[] = $request->getContent();
+            }
+        }
+
+        return $responses;
     }
 }
