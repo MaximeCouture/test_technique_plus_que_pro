@@ -7,49 +7,62 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 class Movie
 {
     #[ORM\Id]
     #[ORM\Column]
+    #[Groups(['getMovie'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['getMovie'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['getMovie'])]
     private ?string $overview = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['getMovie'])]
     private ?string $poster_path = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['getMovie'])]
     private ?string $backdrop_path = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['getMovie'])]
     private ?\DateTimeInterface $release_date = null;
 
     #[ORM\Column(type: Types::SMALLFLOAT)]
+    #[Groups(['getMovie'])]
     private ?float $vote_average = null;
 
     #[ORM\Column]
+    #[Groups(['getMovie'])]
     private ?int $vote_count = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['getMovie'])]
     private ?int $budget = null;
 
     //Avenger Endgame broke the regular int size (some might have done it before, but they weren't as high in trending ATM)
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    #[Groups(['getMovie'])]
     private ?int $revenue = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['getMovie'])]
     private ?string $tagline = null;
 
     /**
      * @var Collection<int, Genre>
      */
     #[ORM\ManyToMany(targetEntity: Genre::class, cascade: ['persist'])]
+    #[Groups(['getMovie'])]
     private Collection $genres;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
