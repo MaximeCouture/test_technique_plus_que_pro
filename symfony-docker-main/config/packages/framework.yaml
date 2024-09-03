@@ -9,6 +9,24 @@ framework:
     #esi: true
     #fragments: true
 
+    http_client:
+        scoped_clients:
+            tmdb_client:
+                name: 'tmdbClient'
+                scope: '%env(TMDB_API_BASEPATH)%'
+                base_uri: '%env(TMDB_API_BASEPATH)%'
+                headers: 
+                    Accept: 'application/json'
+                    Authorization: 'Bearer %env(TMDB_API_KEY)%'
+                rate_limiter: 'tmdb_limiter'
+                
+    rate_limiter:
+        tmdb_limiter:
+            policy: 'token_bucket'
+            limit: 20
+            rate: { interval: '10 seconds', amount: 20}
+        
+        
 when@test:
     framework:
         test: true

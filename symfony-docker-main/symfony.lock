@@ -78,6 +78,18 @@
             "src/Kernel.php"
         ]
     },
+    "symfony/lock": {
+        "version": "7.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.2",
+            "ref": "8e937ff2b4735d110af1770f242c1107fdab4c8e"
+        },
+        "files": [
+            "config/packages/lock.yaml"
+        ]
+    },
     "symfony/maker-bundle": {
         "version": "1.61",
         "recipe": {
@@ -158,6 +170,19 @@
         },
         "files": [
             "config/packages/validator.yaml"
+        ]
+    },
+    "symfony/web-profiler-bundle": {
+        "version": "7.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "6.1",
+            "ref": "e42b3f0177df239add25373083a564e5ead4e13a"
+        },
+        "files": [
+            "config/packages/web_profiler.yaml",
+            "config/routes/web_profiler.yaml"
         ]
     }
 }
