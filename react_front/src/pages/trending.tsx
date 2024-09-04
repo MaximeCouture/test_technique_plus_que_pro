@@ -44,12 +44,13 @@ const Trending = () => {
     }
 
     return <div ref={containerRef} className={"overflow-y-scroll height-100"} onScroll={handleScroll}>
+        <h1 className={"text-center"}>Welcome, here are some currently trending movies</h1>
         <Row>
             <Col md={6}>
-                <h3>Trending today</h3>
+                <h3 className={"text-center"}>Trending today</h3>
             </Col>
             <Col md={6}>
-                <h3>Trending this week</h3>
+                <h3 className={"text-center"}>Trending this week</h3>
             </Col>
         </Row>
         <Row>
