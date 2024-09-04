@@ -19,11 +19,6 @@ const Header = () => {
                         Home
                     </Link>
                 </Nav.Link>
-                <Nav.Link>
-                    <Link to={"/trending"}>
-                            Trending
-                    </Link>
-                </Nav.Link>
             </Nav>
         </Container>
     </Navbar>
