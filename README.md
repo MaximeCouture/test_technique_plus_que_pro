@@ -14,7 +14,7 @@ Maj BDD et import des films, possibilité de créer un cron pour lancer la comma
 Pour 10 pages (soit environ 250 films en fonction des doublons entre jour et semaines) ~10 secondes en local
 ```
 docker exec symfony-docker-main-php-1 php bin/console d:m:m 
-docker exec symfony-docker-main-php-1 php bin/console app:import-movies 10
+docker exec symfony-docker-main-php-1 php bin/console app:import-movie 10
 ```
 
 Il y a aussi une commande import-genre (sans parametres) mais les genres sont automatiquement importer lors de l'import de films
