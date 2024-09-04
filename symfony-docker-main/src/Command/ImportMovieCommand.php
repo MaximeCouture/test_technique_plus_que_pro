@@ -84,6 +84,8 @@ class ImportMovieCommand extends Command
     /**
      * Async batch fetching all trending movies, them make a list of movies id ordered by trending order
      *
+     * @TODO create Helper to do this for reusability.
+     *
      * @param int $page_limit
      * @param bool $daily
      * @return array
@@ -111,6 +113,8 @@ class ImportMovieCommand extends Command
 
     /**
      * Batch load Movies from API, then load each Movie from DB to update them if they exist
+     *
+     * @TODO create Helper to do this for reusability.
      *
      * @param $moviesId
      * @return array
@@ -152,6 +156,8 @@ class ImportMovieCommand extends Command
     /**
      * Used to prevent cascading error when saving movies
      *
+     * @TODO create Helper to do this for reusability.
+     *
      * @param $movie
      * @return void
      */
@@ -161,7 +167,7 @@ class ImportMovieCommand extends Command
         foreach ($genres as $genre) {
             $dbGenre = $this->entityManager->getRepository(Genre::class)->find($genre->getId());
             //if genre already exist in DB, we replace the one from de-normalizer by the "real" one
-            //otherwise, it will be created from cascade persist
+            //otherwise, doctrine will try to create a new genre and fail because it already exists.
             if($dbGenre){
                 $movie->removeGenre($genre);
                 $movie->addGenre($dbGenre);
