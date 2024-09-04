@@ -14,48 +14,48 @@ class Movie
 {
     #[ORM\Id]
     #[ORM\Column]
-    #[Groups(['getMovie'])]
+    #[Groups(['getMovie', 'getMovieFull'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['getMovie'])]
+    #[Groups(['getMovie', 'getMovieFull'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['getMovie'])]
+    #[Groups(['getMovie', 'getMovieFull'])]
     private ?string $overview = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['getMovie'])]
+    #[Groups(['getMovie', 'getMovieFull'])]
     private ?string $poster_path = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['getMovie'])]
+    #[Groups(['getMovieFull'])]
     private ?string $backdrop_path = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Groups(['getMovie'])]
+    #[Groups(['getMovie', 'getMovieFull'])]
     private ?\DateTimeInterface $release_date = null;
 
     #[ORM\Column(type: Types::SMALLFLOAT)]
-    #[Groups(['getMovie'])]
+    #[Groups(['getMovieFull'])]
     private ?float $vote_average = null;
 
     #[ORM\Column]
-    #[Groups(['getMovie'])]
+    #[Groups(['getMovieFull'])]
     private ?int $vote_count = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['getMovie'])]
+    #[Groups(['getMovieFull'])]
     private ?int $budget = null;
 
     //Avenger Endgame broke the regular int size (some might have done it before, but they weren't as high in trending ATM)
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
-    #[Groups(['getMovie'])]
+    #[Groups(['getMovieFull'])]
     private ?int $revenue = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['getMovie'])]
+    #[Groups(['getMovieFull'])]
     private ?string $tagline = null;
 
     /**

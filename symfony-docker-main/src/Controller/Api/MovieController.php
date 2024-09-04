@@ -37,11 +37,25 @@ class MovieController extends AbstractController
         );
     }
 
-    #[Route('/{id}', name: 'app_movies')]
+    #[Route('/search', name: 'app_movies_search')]
+    public function autocompleteSearch(Request $request): JsonResponse
+    {
+        $term = $request->query->get('term', '');
+        $results = $this->movieRepository->autocompleteSearch($term);
+
+        return new JsonResponse(
+            $this->serializer->serialize($results, 'json', ['groups' => ['getMovie']]),
+            Response::HTTP_OK,
+            ['Content-Type' => 'application/json'],
+            true
+        );
+    }
+
+    #[Route('/{id}', name: 'app_movies_details')]
     public function find(Movie $movie): JsonResponse
     {
         return new JsonResponse(
-            $this->serializer->serialize($movie, 'json', ['groups' => ['getMovie']]),
+            $this->serializer->serialize($movie, 'json', ['groups' => ['getMovie', 'getMovieFull']]),
             Response::HTTP_OK,
             ['Content-Type' => 'application/json'],
             true

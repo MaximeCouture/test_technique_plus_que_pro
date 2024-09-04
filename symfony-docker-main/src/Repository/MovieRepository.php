@@ -28,4 +28,17 @@ class MovieRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function autocompleteSearch(string $term, int $page = 1, int $itemsPerPage = 10): array
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb->leftJoin('m.genres', 'g')
+            ->orWhere($qb->expr()->like('LOWER(m.title)', ':term'))
+            ->orWhere($qb->expr()->like('LOWER(g.name)', ':term'))
+            ->setParameter('term', '%' . strtolower($term) . '%')
+            ->setFirstResult(($page - 1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage);
+
+        return $qb->getQuery()->getResult();
+    }
 }
