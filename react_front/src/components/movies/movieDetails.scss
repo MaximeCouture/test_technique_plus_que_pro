@@ -1,0 +1,47 @@
+.movie_details {
+  &--container {
+    display: flex;
+    justify-content: flex-start;
+    max-height: 250px;
+    padding: 10px 0;
+    width: 100%;
+  }
+
+  &--thumbnail-container {
+    max-width: 50%;
+    flex-grow: 0;
+  }
+
+  &--thumbnail {
+    width: 100%;
+    height: auto;
+    flex-grow: 0;
+  }
+
+  &--info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    padding: 10px;
+  }
+
+  &--title {
+
+  }
+
+  &--description {
+
+  }
+
+  &--budget {
+
+  }
+
+  &--genres {
+
+  }
+
+  &--votes {
+
+  }
+}

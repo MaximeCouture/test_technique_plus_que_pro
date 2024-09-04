@@ -16,28 +16,29 @@ class MovieRepository extends ServiceEntityRepository
         parent::__construct($registry, Movie::class);
     }
 
-    //    /**
-    //     * @return Movie[] Returns an array of Movie objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('m.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function getTrendings(bool $daily = true, int $page = 1, int $itemsPerPage = 10): array
+    {
+        $trendingField = $daily ? 'trending_day_order' : 'trending_week_order';
+        $qb = $this->createQueryBuilder('m');
+        $qb->andWhere($qb->expr()->isNotNull('m.' . $trendingField))
+            ->addOrderBy('m.' . $trendingField, 'ASC')
+            ->setFirstResult(($page - 1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+            ;
 
-    //    public function findOneBySomeField($value): ?Movie
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        return $qb->getQuery()->getResult();
+    }
+
+    public function autocompleteSearch(string $term, int $page = 1, int $itemsPerPage = 10): array
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb->leftJoin('m.genres', 'g')
+            ->orWhere($qb->expr()->like('LOWER(m.title)', ':term'))
+            ->orWhere($qb->expr()->like('LOWER(g.name)', ':term'))
+            ->setParameter('term', '%' . strtolower($term) . '%')
+            ->setFirstResult(($page - 1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage);
+
+        return $qb->getQuery()->getResult();
+    }
 }

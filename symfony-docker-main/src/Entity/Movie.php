@@ -7,52 +7,62 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 class Movie
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getMovie', 'getMovieFull'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['getMovie', 'getMovieFull'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['getMovie', 'getMovieFull'])]
     private ?string $overview = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['getMovie', 'getMovieFull'])]
     private ?string $poster_path = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['getMovieFull'])]
     private ?string $backdrop_path = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['getMovie', 'getMovieFull'])]
     private ?\DateTimeInterface $release_date = null;
 
-    #[ORM\Column(unique: true)]
-    private ?int $TMDB_id = null;
-
     #[ORM\Column(type: Types::SMALLFLOAT)]
+    #[Groups(['getMovieFull'])]
     private ?float $vote_average = null;
 
     #[ORM\Column]
+    #[Groups(['getMovieFull'])]
     private ?int $vote_count = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['getMovieFull'])]
     private ?int $budget = null;
 
-    #[ORM\Column(nullable: true)]
+    //Avenger Endgame broke the regular int size (some might have done it before, but they weren't as high in trending ATM)
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    #[Groups(['getMovieFull'])]
     private ?int $revenue = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['getMovieFull'])]
     private ?string $tagline = null;
 
     /**
      * @var Collection<int, Genre>
      */
-    #[ORM\ManyToMany(targetEntity: Genre::class)]
+    #[ORM\ManyToMany(targetEntity: Genre::class, cascade: ['persist'])]
+    #[Groups(['getMovie'])]
     private Collection $genres;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
@@ -69,6 +79,13 @@ class Movie
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getTitle(): ?string
@@ -127,18 +144,6 @@ class Movie
     public function setReleaseDate(?\DateTimeInterface $release_date): static
     {
         $this->release_date = $release_date;
-
-        return $this;
-    }
-
-    public function getTMDBId(): ?int
-    {
-        return $this->TMDB_id;
-    }
-
-    public function setTMDBId(int $TMDB_id): static
-    {
-        $this->TMDB_id = $TMDB_id;
 
         return $this;
     }
