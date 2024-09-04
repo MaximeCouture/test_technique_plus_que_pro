@@ -35,8 +35,8 @@ function App() {
                 <Container className={"overflow-hidden screen-filler"}>
                     <Header />
                     <Routes>
-                        {routes.map((route: { path: string, element: ReactElement }) => {
-                            return <Route path={route.path} element={route.element}/>
+                        {routes.map((route: { path: string, element: ReactElement }, key: number) => {
+                            return <Route path={route.path} element={route.element} key={key}/>
                         })}
                     </Routes>
                 </Container>

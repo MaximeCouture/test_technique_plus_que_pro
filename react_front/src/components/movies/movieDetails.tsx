@@ -34,8 +34,8 @@ const MovieDetails = (props: MovieDetailsProps) => {
                     Note : {movie.vote_average} sur {movie.vote_count} vote(s)
                 </div>
                 <div className={"movie_details--genres"}>
-                    Genre(s) : {movie.genres.map((genre: {name: string}) => {
-                    return <Badge pill bg={"primary"}>{genre.name}</Badge>
+                    Genre(s) : {movie.genres.map((genre: {name: string}, key: number) => {
+                    return <Badge pill bg={"primary"} key={key}>{genre.name}</Badge>
                 })}
                 </div>
             </Col>

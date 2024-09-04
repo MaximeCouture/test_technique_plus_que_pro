@@ -5,6 +5,7 @@ import Error from "../components/error";
 import React, {useRef, useState} from "react";
 import MoviePreview from "../components/movies/moviePreview";
 import {Col, Row} from "react-bootstrap";
+import {MovieType} from "../config/types";
 
 
 const Trending = () => {
@@ -55,13 +56,13 @@ const Trending = () => {
         </Row>
         <Row>
             <Col md={6}>
-                {trendingDay && trendingDay.map((data) => {
-                    return <MoviePreview movie={data}/>
+                {trendingDay && trendingDay.map((data: MovieType, key: number) => {
+                    return <MoviePreview key={key} movie={data}/>
                 })}
             </Col>
             <Col md={6}>
-                {trendingWeek && trendingWeek.map((data) => {
-                    return <MoviePreview movie={data}/>
+                {trendingWeek && trendingWeek.map((data: MovieType, key: number) => {
+                    return <MoviePreview key={key} movie={data}/>
                 })}
             </Col>
             {(isLoadingDay || isLoadingWeek) &&

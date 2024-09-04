@@ -44,12 +44,12 @@ const AutocompleteSearchBar = () => {
         {showResults && searchParams && (searchResults || isLoading) &&
             <div className={"autocomplete_search--results"}>
                 <Dropdown.Menu show={!!searchResults}>
-                    {!!searchResults && !isLoading && searchResults.map((movie: MovieType) => {
-                        return <Dropdown.Item onClick={() => onResultClick(movie.id)}>
+                    {!!searchResults && !isLoading && searchResults.map((movie: MovieType, key: number) => {
+                        return <Dropdown.Item onClick={() => onResultClick(movie.id)} key={key}>
                             <h6 className={"d-inline"}>{movie.title}</h6>
                             <div className={"badges justify-content-end"}>
-                                {movie.genres.map((genre: {name: string}) => {
-                                    return <Badge pill bg={"secondary"}>{genre.name}</Badge>
+                                {movie.genres.map((genre: {name: string}, key: number) => {
+                                    return <Badge pill bg={"secondary"} key={key}>{genre.name}</Badge>
                                 })}
                             </div>
                         </Dropdown.Item>
