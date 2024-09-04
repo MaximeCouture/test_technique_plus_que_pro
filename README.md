@@ -24,6 +24,7 @@ Il y a aussi une commande import-genre (sans parametres) mais les genres sont au
 Lancer le container frontend (depuis le dossier root)
 ```
 cd react-front
+npm install
 docker compose up -d --wait
 ```
 
