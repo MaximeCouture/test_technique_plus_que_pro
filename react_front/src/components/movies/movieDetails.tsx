@@ -1,6 +1,6 @@
 import {MovieType} from "../../config/types";
-import {memo} from "react";
-import {Col, Row} from "react-bootstrap";
+import React, {memo} from "react";
+import {Badge, Col, Row} from "react-bootstrap";
 import './movieDetails.scss';
 
 interface MovieDetailsProps {
@@ -22,22 +22,24 @@ const MovieDetails = (props: MovieDetailsProps) => {
             </Col>
             <Col md={8} className={"movie_details--info"}>
                 <div className={"movie_details--title"}>
-                    {movie.title}
+                    <h1>{movie.title}</h1>
                 </div>
                 {movie.tagline && <div className={"movie_details--tagline"}>
-                    {movie.tagline}
+                    <h3>{movie.tagline}</h3>
                 </div>}
                 <div className={"movie_details--budget"}>
                     Budget : {movie.budget.toLocaleString()}$
                 </div>
-                <div className={"movie_details--budget"}>
+                <div className={"movie_details--vote"}>
                     Note : {movie.vote_average} sur {movie.vote_count} vote(s)
                 </div>
-                <div className={"movie_details--budget"}>
-                    Genre(s) : {movie.genres.map((genre: {name: string}) => <span>{genre.name} </span>)}
+                <div className={"movie_details--genres"}>
+                    Genre(s) : {movie.genres.map((genre: {name: string}) => {
+                    return <Badge pill bg={"primary"}>{genre.name}</Badge>
+                })}
                 </div>
             </Col>
-            </Row>
+        </Row>
     </>
 }
 

@@ -1,8 +1,7 @@
-import loader from '../loader.gif';
-import {Image} from "react-bootstrap";
+import {Spinner} from "react-bootstrap";
 
 const Loader = () => {
-    return <Image src={loader} className={"loader"} fluid />
+    return <Spinner animation="border" variant="primary" />
 }
 
 export default Loader;

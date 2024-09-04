@@ -8,7 +8,15 @@ import Movie from "./pages/movie";
 import Header from "./components/header/header";
 import {Container} from "react-bootstrap";
 
-const queryClient = new QueryClient();
+//Queries are valid for 300 seconds prevent to much reloading
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 300,
+            cacheTime: 300,
+        },
+    },
+});
 
 const routes = [
     {
@@ -29,8 +37,8 @@ function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
-                <Header/>
-                <Container>
+                <Container className={"overflow-hidden screen-filler"}>
+                    <Header />
                     <Routes>
                         {routes.map((route: { path: string, element: ReactElement }) => {
                             return <Route path={route.path} element={route.element}/>
@@ -38,6 +46,7 @@ function App() {
                         <Route path="/" element={<Home/>}/>
                     </Routes>
                 </Container>
+
             </BrowserRouter>
         </QueryClientProvider>
     );

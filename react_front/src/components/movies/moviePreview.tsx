@@ -32,7 +32,7 @@ const MoviePreview = (props: MoviePreviewProps) => {
         </Col>
         <Col md={9} className={"movie_preview--info"}>
             <div className={"movie_preview--title"}>
-                {movie.title}
+                <h5>{movie.title}</h5>
             </div>
             <div className={"movie_preview--description"}>
                 {truncateString(movie.overview, 100) + " ..."}
