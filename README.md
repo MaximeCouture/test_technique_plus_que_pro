@@ -10,13 +10,11 @@ cd symfony-docker-main
 docker compose up -d --wait
 ```
 
-Dans le container
-
-Import des films, possibilité de créer un cron pour lancer la commande régulierement et garder une base a jour.
+Maj BDD et import des films, possibilité de créer un cron pour lancer la commande régulierement et garder une base a jour.
 Pour 10 pages (soit environ 250 films en fonction des doublons entre jour et semaines) ~10 secondes en local
 ```
-php bin/console d:m:m
-php bin/console app:import-movies <nbPage>
+docker exec symfony-docker-main-php-1 php bin/console d:m:m 
+docker exec symfony-docker-main-php-1 php bin/console app:import-movies 10
 ```
 
 Il y a aussi une commande import-genre (sans parametres) mais les genres sont automatiquement importer lors de l'import de films
