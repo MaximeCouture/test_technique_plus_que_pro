@@ -13,7 +13,7 @@ docker compose up -d --wait
 Maj BDD et import des films, possibilité de créer un cron pour lancer la commande régulierement et garder une base a jour.
 Pour 10 pages (soit environ 250 films en fonction des doublons entre jour et semaines) ~10 secondes en local
 ```
-docker exec symfony-docker-main-php-1 php bin/console d:m:m 
+docker exec symfony-docker-main-php-1 php bin/console d:m:m -n
 docker exec symfony-docker-main-php-1 php bin/console app:import-movie 10
 ```
 
@@ -26,6 +26,12 @@ Lancer le container frontend (depuis le dossier root)
 cd react-front
 npm install
 docker compose up -d --wait
+```
+
+### Avant de lancer les test, ne pas oublier de creer la bdd et lancer les migrations dans l'env de test
+```
+docker exec symfony-docker-main-php-1 php bin/console --env=test doctrine:database:create 
+docker exec symfony-docker-main-php-1 php bin/console --env=test d:m:m -n
 ```
 
 #### naviguer vers http://localhost:3000 
@@ -56,3 +62,6 @@ https://symfony.com/bundles/NelmioCorsBundle/current/index.html
 
 Doc de EasyAdmin
 https://symfony.com/bundles/EasyAdminBundle/current/fields.html
+
+Doc de Api Simulator
+https://apisimulator.io/docs/1.12/standalone-api-simulator/request-matching.html
