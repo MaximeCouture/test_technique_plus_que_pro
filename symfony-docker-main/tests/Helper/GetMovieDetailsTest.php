@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Tests\Service;
+namespace App\Tests\Helper;
 
 
-use App\Entity\Genre;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class GetMovieDetailsTest extends KernelTestCase
