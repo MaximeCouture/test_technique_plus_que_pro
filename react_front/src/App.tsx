@@ -11,8 +11,8 @@ import {Container} from "react-bootstrap";
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            staleTime: 300,
-            cacheTime: 300,
+            staleTime: 1000,
+            cacheTime: 1000,
         },
     },
 });
@@ -32,8 +32,8 @@ function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
+                <Header />
                 <Container className={"overflow-hidden screen-filler"}>
-                    <Header />
                     <Routes>
                         {routes.map((route: { path: string, element: ReactElement }, key: number) => {
                             return <Route path={route.path} element={route.element} key={key}/>

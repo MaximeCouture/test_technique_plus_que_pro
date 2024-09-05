@@ -3,7 +3,6 @@
     display: flex;
     justify-content: flex-start;
     max-height: 250px;
-    padding: 10px;
     width: 100%;
 
     &:hover {
@@ -28,7 +27,6 @@
     display: flex;
     flex-direction: column;
     flex-grow: 0;
-    padding: 10px;
   }
 
   &--title {

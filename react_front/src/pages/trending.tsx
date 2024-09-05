@@ -44,14 +44,14 @@ const Trending = () => {
         return <Error/>;
     }
 
-    return <div ref={containerRef} className={"overflow-y-scroll height-100"} onScroll={handleScroll}>
-        <h1 className={"text-center"}>Welcome, here are some currently trending movies</h1>
+    return <div ref={containerRef} className={"overflow-y-scroll h-100 overflow-x-hidden"} onScroll={handleScroll}>
+        <h1 className={"text-center m-5"}>Welcome, here are some currently trending movies</h1>
         <Row>
             <Col md={6}>
-                <h3 className={"text-center"}>Trending today</h3>
+                <h3 className={"text-center m-2"}>Trending today</h3>
             </Col>
             <Col md={6}>
-                <h3 className={"text-center"}>Trending this week</h3>
+                <h3 className={"text-center m-2"}>Trending this week</h3>
             </Col>
         </Row>
         <Row>

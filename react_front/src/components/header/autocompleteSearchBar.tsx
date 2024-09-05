@@ -39,11 +39,11 @@ const AutocompleteSearchBar = () => {
             onChange={(event) => setKeywords(event.target.value)}
             onFocus={() => setShowResults(true)}
             //timeout prevent dropdown to close before click on item
-            onBlur={() => () => setShowResults(false)}
+            onBlur={() => setShowResults(false)}
         />
         {showResults && searchParams && (searchResults || isLoading) &&
             <div className={"autocomplete_search--results"}>
-                <Dropdown.Menu show={!!searchResults}>
+                <Dropdown.Menu className={"no-left shadow-lg"} show={!!searchResults}>
                     {!!searchResults && !isLoading && searchResults.map((movie: MovieType, key: number) => {
                         return <Dropdown.Item onMouseDown={() => onResultClick(movie.id)} key={key}>
                             <h6 className={"d-inline"}>{movie.title}</h6>

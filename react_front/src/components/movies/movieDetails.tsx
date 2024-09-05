@@ -11,6 +11,8 @@ const MovieDetails = (props: MovieDetailsProps) => {
 
     const {movie} = props;
 
+    movie.release_date = new Date(movie.release_date);
+
     return <>
         <Row className={"movie_details--container"}>
             <Col md={4} className={"movie_details--thumbnail-container"}>
@@ -27,6 +29,9 @@ const MovieDetails = (props: MovieDetailsProps) => {
                 {movie.tagline && <div className={"movie_details--tagline"}>
                     <h3>{movie.tagline}</h3>
                 </div>}
+                <div className={"movie_details--budget"}>
+                    Sortie le : {movie.release_date.toLocaleDateString()}
+                </div>
                 <div className={"movie_details--budget"}>
                     Budget : {movie.budget.toLocaleString()}$
                 </div>

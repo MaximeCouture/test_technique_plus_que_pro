@@ -22,7 +22,7 @@ const MoviePreview = (props: MoviePreviewProps) => {
         navigate(`/movie/${movieId}`);
     }
 
-    return <Row className={"movie_preview--container"} onClick={() => onPreviewClick(movie.id)}>
+    return <Row className={"movie_preview--container m-2 p-2 border-bottom"} onClick={() => onPreviewClick(movie.id)}>
         <Col md={3} className={"movie_preview--thumbnail-container"}>
             <img
                 src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
@@ -30,7 +30,7 @@ const MoviePreview = (props: MoviePreviewProps) => {
                 className={"movie_preview--thumbnail"}
             />
         </Col>
-        <Col md={9} className={"movie_preview--info"}>
+        <Col md={9} className={"movie_preview--info p-3"}>
             <div className={"movie_preview--title"}>
                 <h5>{movie.title}</h5>
             </div>
