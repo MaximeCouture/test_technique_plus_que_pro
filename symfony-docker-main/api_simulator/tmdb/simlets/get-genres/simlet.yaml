@@ -1,0 +1,13 @@
+simlet: get-genres
+
+request:
+- method: GET
+- uriPath: "/genre/movie/list"
+
+response:
+  from: stub
+  headers:
+  - "Content-Type: application/json"
+  body:
+    type: text
+    file: "${simlet.path}/genres.json"
