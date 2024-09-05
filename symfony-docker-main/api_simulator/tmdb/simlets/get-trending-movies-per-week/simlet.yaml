@@ -1,0 +1,13 @@
+simlet: get-trending-movies-per-week
+
+request:
+- method: GET
+- uriPath: "/trending/movie/week"
+
+response:
+  from: stub
+  headers:
+  - "Content-Type: application/json"
+  body:
+    type: text
+    file: "${simlet.path}/week.json"

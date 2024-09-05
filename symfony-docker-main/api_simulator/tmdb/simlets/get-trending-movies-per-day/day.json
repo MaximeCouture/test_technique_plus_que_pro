@@ -1,0 +1,49 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "backdrop_path": "/p5kpFS0P3lIwzwzHBOULQovNWyj.jpg",
+      "id": 1032823,
+      "title": "Trap",
+      "original_title": "Trap",
+      "overview": "Un père et sa fille adolescente assistent à un concert pop, où ils se rendent compte qu’ils sont au centre d’un événement sombre et sinistre.",
+      "poster_path": "/h24NGyo37FI5Ei3BqmmBarkYM3.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "en",
+      "genre_ids": [
+        80,
+        53
+      ],
+      "popularity": 1308.217,
+      "release_date": "2024-07-31",
+      "video": false,
+      "vote_average": 6.524,
+      "vote_count": 756
+    },
+    {
+      "backdrop_path": "/cgKZtNSETjXJPkAQ4rasV7dnyQH.jpg",
+      "id": 917496,
+      "title": "Beetlejuice Beetlejuice",
+      "original_title": "Beetlejuice Beetlejuice",
+      "overview": "Après une terrible tragédie, la famille Deetz revient à Winter River. Toujours hantée par le souvenir de Beetlejuice, Lydia voit sa vie bouleversée lorsque sa fille Astrid, adolescente rebelle, ouvre accidentellement un portail menant à l’Après-vie. Alors que le chaos plane sur les deux mondes, ce n’est qu’une question de temps avant que quelqu’un ne prononce le nom de Beetlejuice trois fois et que ce démon farceur ne revienne semer la pagaille…",
+      "poster_path": "/4M8fnQF821aVFBbhLdTQGf4j4W9.jpg",
+      "media_type": "movie",
+      "adult": false,
+      "original_language": "en",
+      "genre_ids": [
+        35,
+        27,
+        14,
+        9648
+      ],
+      "popularity": 763.466,
+      "release_date": "2024-09-04",
+      "video": false,
+      "vote_average": 7.7,
+      "vote_count": 26
+    }
+  ],
+  "total_pages": 1000,
+  "total_results": 20000
+}

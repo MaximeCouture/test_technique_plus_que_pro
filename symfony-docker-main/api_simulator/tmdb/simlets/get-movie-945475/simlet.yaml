@@ -1,0 +1,13 @@
+simlet: get-movie-945475
+
+request:
+- method: GET
+- uriPathPattern: /movie/945475
+
+response:
+  from: stub
+  headers:
+  - "Content-Type: application/json"
+  body:
+    type: text
+    file: "${simlet.path}/945475.json"
