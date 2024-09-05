@@ -65,3 +65,6 @@ https://symfony.com/bundles/EasyAdminBundle/current/fields.html
 
 Doc de Api Simulator
 https://apisimulator.io/docs/1.12/standalone-api-simulator/request-matching.html
+
+Test de Command Symfony
+https://symfony.com/doc/current/console.html#testing-commands
