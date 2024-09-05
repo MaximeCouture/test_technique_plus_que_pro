@@ -2,10 +2,11 @@
 
 namespace App\Command;
 
-use App\Entity\Genre;
 use App\Entity\Movie;
+use App\Helper\Movie\GetMoviesHelper;
+use App\Helper\Movie\GetTrendingMoviesIdHelper;
+use App\Helper\Movie\ReplaceGenreByDbGenreHelper;
 use App\Repository\MovieRepository;
-use App\Service\TmdbApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -23,10 +24,11 @@ class ImportMovieCommand extends Command
 {
 
     public function __construct(
-        private readonly TmdbApiService         $tmdbApiService,
-        private readonly SerializerInterface    $serializer,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly MovieRepository        $movieRepository,
+        private readonly EntityManagerInterface      $entityManager,
+        private readonly MovieRepository             $movieRepository,
+        private readonly GetTrendingMoviesIdHelper   $getTrendingMoviesIdHelper,
+        private readonly GetMoviesHelper             $getMoviesHelper,
+        private readonly ReplaceGenreByDbGenreHelper $replaceGenreByDbGenreHelper,
     )
     {
         parent::__construct();
@@ -49,26 +51,29 @@ class ImportMovieCommand extends Command
         $output->writeln('<info>Importing movies</info>');
 
         $output->writeln('<info>Fetching Trending movies for the day</info>');
-        $trendingMoviesIdDaily = $this->getTrendingMovieIds($page_limit);
+        $trendingMoviesIdDaily = $this->getTrendingMoviesIdHelper->getTrendingMoviesId(true, $page_limit);
         $output->writeln('<info>Fetching Trending movies for the week</info>');
-        $trendingMoviesIdWeekly = $this->getTrendingMovieIds($page_limit, false);
+        $trendingMoviesIdWeekly = $this->getTrendingMoviesIdHelper->getTrendingMoviesId(false, $page_limit);
+
+        //we will also fetch all movies currently in DB to update their info, especially the trending info
+        $dbMoviesId = $this->movieRepository->getAllMoviesId();
         //prevent fetching the same movie multiple times
-        $moviesToImport = array_unique(array_merge($trendingMoviesIdDaily, $trendingMoviesIdWeekly));
+        $moviesToImport = array_unique(array_merge($trendingMoviesIdDaily, $trendingMoviesIdWeekly, $dbMoviesId));
         $nbMovies = count($moviesToImport);
         $output->writeln('<info>Trends fetched, importing movies</info>');
         $output->writeln("<info>$nbMovies movie(s) to import</info>");
 
-        $movies = $this->getMovies($moviesToImport);
+        $movies = $this->getMoviesHelper->getMovies($moviesToImport);
 
         $output->writeln('<info>All movies are fetched, adding trending information to each movie</info>');
         //adding trending order to each movie for day and week (monthly doesn't exist on API)
-        /** @var Movie $movie */
         foreach ($movies as $movie) {
             // add trending info to movie
             $this->updateMovieTrendingInfo($movie, $trendingMoviesIdDaily, $trendingMoviesIdWeekly);
             //prevent cascading issues
-            $this->setGenresFromDB($movie);
+            $this->replaceGenreByDbGenreHelper->replaceGenreByDbGenre($movie);
             $this->entityManager->persist($movie);
+            //@TODO the larger the movie pool, the more likely it will be needed to separate flushing in batch
         }
 
         $output->writeln('<info>Updating Database</info>');
@@ -82,62 +87,7 @@ class ImportMovieCommand extends Command
     }
 
     /**
-     * Async batch fetching all trending movies, them make a list of movies id ordered by trending order
-     *
-     * @TODO create Helper to do this for reusability.
-     *
-     * @param int $page_limit
-     * @param bool $daily
-     * @return array
-     */
-    private function getTrendingMovieIds(int $page_limit, bool $daily = true): array
-    {
-        $movieIds = [];
-        $pages = [];
-
-        //array containing all pages that need to be fetched
-        for ($i = 1; $i <= $page_limit; $i++) {
-            $pages[] = $i;
-        }
-
-        $trendings = $this->tmdbApiService->getTrendingMovies($daily, $pages, true);
-
-        foreach ($trendings as $trending) {
-            foreach ($trending['results'] as $movie) {
-                $movieIds[] = $movie['id'];
-            }
-        }
-
-        return $movieIds;
-    }
-
-    /**
-     * Batch load Movies from API, then load each Movie from DB to update them if they exist
-     *
-     * @TODO create Helper to do this for reusability.
-     *
-     * @param $moviesId
-     * @return array
-     */
-    private function getMovies($moviesId)
-    {
-        $movies = [];
-        $moviesResponses = $this->tmdbApiService->getMoviesDetails($moviesId, true);
-        foreach ($moviesResponses as $movie) {
-            $DbMovie = $this->movieRepository->find($movie['id']);
-            if ($DbMovie) {
-                $movies[] = $this->serializer->denormalize($movie, Movie::class, 'array', ['object_to_populate' => $DbMovie]);
-            }
-            else {
-                $movies[] = $this->serializer->denormalize($movie, Movie::class);
-            }
-        }
-
-        return $movies;
-    }
-
-    /**
-     *
+     * Set movie trending info based on index in array containing trending movies
      *
      * @param $movie
      * @param $dailyTrendingIds
@@ -148,30 +98,8 @@ class ImportMovieCommand extends Command
     {
         $trendingDayOrder = array_search($movie->getId(), $dailyTrendingIds);
         $trendingWeekOrder = array_search($movie->getId(), $weeklyTrendingIds);
-        //prevent null when order = 0
-        $movie->setTrendingDayOrder($trendingDayOrder!== false ? $trendingDayOrder + 1 : null);
-        $movie->setTrendingWeekOrder($trendingWeekOrder!== false ? $trendingWeekOrder + 1 : null);
-    }
-
-    /**
-     * Used to prevent cascading error when saving movies
-     *
-     * @TODO create Helper to do this for reusability.
-     *
-     * @param $movie
-     * @return void
-     */
-    private function setGenresFromDB($movie)
-    {
-        $genres = $movie->getGenres();
-        foreach ($genres as $genre) {
-            $dbGenre = $this->entityManager->getRepository(Genre::class)->find($genre->getId());
-            //if genre already exist in DB, we replace the one from de-normalizer by the "real" one
-            //otherwise, doctrine will try to create a new genre and fail because it already exists.
-            if($dbGenre){
-                $movie->removeGenre($genre);
-                $movie->addGenre($dbGenre);
-            }
-        }
+        //prevent null when order = 0 ; eg movie is #1 trend
+        $movie->setTrendingDayOrder($trendingDayOrder !== false ? $trendingDayOrder + 1 : null);
+        $movie->setTrendingWeekOrder($trendingWeekOrder !== false ? $trendingWeekOrder + 1 : null);
     }
 }

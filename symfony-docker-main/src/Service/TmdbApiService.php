@@ -39,7 +39,7 @@ class TmdbApiService
     {
         $uris = [];
         $params = [];
-        foreach ($movieIds as $movieId) {
+        foreach (array_unique($movieIds) as $movieId) {
             $uris[] = $this->apiBasePath . sprintf(self::GET_MOVIE_DETAILS_URI, $movieId);
             $params[] = ['query' => self::QUERY_PARAMETERS];
         }

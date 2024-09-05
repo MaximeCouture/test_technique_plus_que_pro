@@ -1,0 +1,57 @@
+{
+  "adult": false,
+  "backdrop_path": "/p5kpFS0P3lIwzwzHBOULQovNWyj.jpg",
+  "belongs_to_collection": null,
+  "budget": 30000000,
+  "genres": [
+    {
+      "id": 80,
+      "name": "Crime"
+    },
+    {
+      "id": 53,
+      "name": "Thriller"
+    }
+  ],
+  "homepage": "",
+  "id": 1032823,
+  "imdb_id": "tt26753003",
+  "origin_country": [
+    "US"
+  ],
+  "original_language": "en",
+  "original_title": "Trap",
+  "overview": "Un père et sa fille adolescente assistent à un concert pop, où ils se rendent compte qu’ils sont au centre d’un événement sombre et sinistre.",
+  "popularity": 1308.217,
+  "poster_path": "/h24NGyo37FI5Ei3BqmmBarkYM3.jpg",
+  "production_companies": [
+    {
+      "id": 12236,
+      "logo_path": "/bVu0qQm4GujSTCvZZz9S3rHDczA.png",
+      "name": "Blinding Edge Pictures",
+      "origin_country": "US"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "release_date": "2024-07-31",
+  "revenue": 76500703,
+  "runtime": 105,
+  "spoken_languages": [
+    {
+      "english_name": "English",
+      "iso_639_1": "en",
+      "name": "English"
+    }
+  ],
+  "status": "Released",
+  "tagline": "",
+  "title": "Trap",
+  "video": false,
+  "vote_average": 6.5,
+  "vote_count": 752
+}

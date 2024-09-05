@@ -41,4 +41,16 @@ class MovieRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * Fetch all movies id from DB
+     *
+     * @return array
+     */
+    public function getAllMoviesId(): array
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb->select('m.id');
+        return $qb->getQuery()->getSingleColumnResult();
+    }
 }
