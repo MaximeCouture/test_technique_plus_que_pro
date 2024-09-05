@@ -39,13 +39,13 @@ const AutocompleteSearchBar = () => {
             onChange={(event) => setKeywords(event.target.value)}
             onFocus={() => setShowResults(true)}
             //timeout prevent dropdown to close before click on item
-            onBlur={() => setTimeout(() => setShowResults(false), 150)}
+            onBlur={() => () => setShowResults(false)}
         />
         {showResults && searchParams && (searchResults || isLoading) &&
             <div className={"autocomplete_search--results"}>
                 <Dropdown.Menu show={!!searchResults}>
                     {!!searchResults && !isLoading && searchResults.map((movie: MovieType, key: number) => {
-                        return <Dropdown.Item onClick={() => onResultClick(movie.id)} key={key}>
+                        return <Dropdown.Item onMouseDown={() => onResultClick(movie.id)} key={key}>
                             <h6 className={"d-inline"}>{movie.title}</h6>
                             <div className={"badges justify-content-end"}>
                                 {movie.genres.map((genre: {name: string}, key: number) => {
