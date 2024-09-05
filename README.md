@@ -28,11 +28,15 @@ npm install
 docker compose up -d --wait
 ```
 
+## Testing
+
 ### Avant de lancer les test, ne pas oublier de creer la bdd et lancer les migrations dans l'env de test
 ```
 docker exec symfony-docker-main-php-1 php bin/console --env=test doctrine:database:create 
 docker exec symfony-docker-main-php-1 php bin/console --env=test d:m:m -n
 ```
+
+Le package dama/doctrine-test-bundle est utilisé pour que la BDD soit vidée entre chaque test.
 
 #### naviguer vers http://localhost:3000 
 #### naviguer vers http://localhost/admin pour acceder au back office
@@ -68,3 +72,6 @@ https://apisimulator.io/docs/1.12/standalone-api-simulator/request-matching.html
 
 Test de Command Symfony
 https://symfony.com/doc/current/console.html#testing-commands
+
+Reset de la DB pour chaque test
+https://symfony.com/doc/current/testing.html#resetting-the-database-automatically-before-each-test
