@@ -28,19 +28,31 @@ npm install
 docker compose up -d --wait
 ```
 
-#### naviguer vers http://localhost:3000
+#### naviguer vers http://localhost:3000 
 #### naviguer vers http://localhost/admin pour acceder au back office
 
 ### Certaines des resources utilisées pour m'aider
 
+Mise en place de l'infinite scroll dans React
 https://dev.to/fpaghar/get-and-set-the-scroll-position-of-an-element-with-react-hook-4ooa
 
+Debouncing de la recherche
 https://usehooks.com/usedebounce
 
+Documentation de la lib ReactBootstrap
 https://react-bootstrap.netlify.app/docs/components/accordion
 
+Documentation de la lib ReactQuery
 https://tanstack.com/query/v3/docs/framework/react/overview
 
+Information sur la limitation de requete sur l'api TMDB
 https://www.themoviedb.org/talk/6558fa627f054018d5168d91
 
+Mise en place d'un limiter pour httpClient dans symfony
 https://symfony.com/doc/current/http_client.html#limit-the-number-of-requests
+
+Configuration des Cors dans Symfony
+https://symfony.com/bundles/NelmioCorsBundle/current/index.html
+
+Doc de EasyAdmin
+https://symfony.com/bundles/EasyAdminBundle/current/fields.html
