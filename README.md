@@ -29,6 +29,7 @@ docker compose up -d --wait
 ```
 
 #### naviguer vers http://localhost:3000
+#### naviguer vers http://localhost/admin pour acceder au back office
 
 ### Certaines des resources utilisées pour m'aider
 
