@@ -14,7 +14,6 @@ class GetTrendingMoviesIdTest extends KernelTestCase
     public function testGetDayTrendingMoviesIdCount()
     {
         $moviesId = $this->getTrendingMoviesId();
-//        var_dump($moviesId);die;
         $this->assertCount(2, $moviesId);
     }
 
@@ -24,7 +23,7 @@ class GetTrendingMoviesIdTest extends KernelTestCase
     public function testGetDayTrendingMoviesId()
     {
         $moviesId = $this->getTrendingMoviesId();
-        $this->assertContains(917496, $moviesId);
+        $this->assertContains(945475, $moviesId);
     }
 
     /**

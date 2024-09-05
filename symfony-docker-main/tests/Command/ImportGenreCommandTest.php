@@ -20,7 +20,7 @@ class ImportGenreCommandTest extends KernelTestCase
         $entityManager = $container->get('doctrine.orm.entity_manager');
 
         $genres = $entityManager->getRepository(Genre::class)->findAll();
-        $this->assertCount(0, $genres);
+        $this->assertEmpty($genres);
 
         $commandTester->execute([]);
         $commandTester->assertCommandIsSuccessful();
